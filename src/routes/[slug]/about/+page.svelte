@@ -2,7 +2,7 @@
     export let data = {};
 
     async function signIn() {
-        await fetch("https://ctrlclub.mqlvin.dev/login", {
+        await fetch("https://ctrlclub.mqlvin.dev/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ "username": "hello", "password": "pass"}),
@@ -11,7 +11,7 @@
     }
 
     async function logOut() {
-        await fetch("https://ctrlclub.mqlvin.dev/logout", {
+        await fetch("https://ctrlclub.mqlvin.dev/auth/logout", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"

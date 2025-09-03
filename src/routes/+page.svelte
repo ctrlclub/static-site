@@ -13,7 +13,7 @@
 
     // move this to an auth "GROUP" or something, please
     async function isLoggedIn() {
-        let response = await fetch("https://ctrlclub.mqlvin.dev/testsession", {
+        let response = await fetch("https://ctrlclub.mqlvin.dev/auth/testsession", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"
