@@ -1,8 +1,10 @@
 <script lang="ts">
+    import { API_URL } from "$lib/api.ts";
+
     export let data = {};
 
     async function signIn() {
-        await fetch("https://ctrlclub.mqlvin.dev/auth/login", {
+        await fetch(API_URL + "/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ "username": "hello", "password": "pass"}),
@@ -11,7 +13,7 @@
     }
 
     async function logOut() {
-        await fetch("https://ctrlclub.mqlvin.dev/auth/logout", {
+        await fetch(API_URL + "/auth/logout", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"

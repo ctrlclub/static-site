@@ -3,6 +3,8 @@
     import { goto } from "$app/navigation";
     import { onMount } from 'svelte';
 
+    import { API_URL } from "$lib/api.ts";
+
     onMount(async () => {
         if(await isLoggedIn()) {
             window.location.href = "/challenges";
@@ -13,7 +15,7 @@
 
     // move this to an auth "GROUP" or something, please
     async function isLoggedIn() {
-        let response = await fetch("https://ctrlclub.mqlvin.dev/auth/testsession", {
+        let response = await fetch(API_URL + "/auth/testsession", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"

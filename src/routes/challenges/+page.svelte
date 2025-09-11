@@ -1,8 +1,10 @@
 <script lang="ts">
+    import { API_URL } from "$lib/api.ts";
+
     export let data: ChallengeListingResponse = {};
 
     async function logout() {
-        await fetch("https://ctrlclub.mqlvin.dev/auth/logout", {
+        await fetch(API_URL + "/auth/logout", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"

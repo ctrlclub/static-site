@@ -1,4 +1,5 @@
 import type { LoginAttempt, LoginResponse } from "$types/auth";
+import { API_URL } from "$lib/api.ts";
 
 
 export const validateEmail = (v: string) =>
@@ -15,7 +16,7 @@ export async function attemptLogin(credentials: LoginAttempt): Promise<LoginResp
 
     try {
         // try login with credentials
-        let res = await fetch("https://ctrlclub.mqlvin.dev/auth/login", {
+        let res = await fetch(API_URL + "/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
