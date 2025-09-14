@@ -11,7 +11,8 @@ const config = {
         },
         alias: {
             $types: resolve('./src/types'),
-            $lib: resolve('./src/lib')
+            $lib: resolve('./src/lib'),
+            $components: resolve('./src/components'),
         }
     },
 

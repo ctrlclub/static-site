@@ -15,5 +15,10 @@
     "gh-pages": "^6.3.0",
     "svelte": "^5.35.7",
     "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0",
+    "svelte-collapsible": "^0.3.1"
   }
 }

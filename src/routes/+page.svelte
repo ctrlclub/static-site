@@ -23,7 +23,7 @@
 
         // this needs a custom entity, maybe all http requests + entities in separate lib area?
         let result = await response.json();
-        return result["isLoggedIn"];
+        return result["data"]["isLoggedIn"];
     }
 </script>
 

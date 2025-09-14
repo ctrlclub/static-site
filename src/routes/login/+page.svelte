@@ -51,7 +51,7 @@
 
     <div id="center">
         <div id="center-title">
-            <img src="/assets/logo_128.svg" width="128" height="128" id="logo">
+            <img src="/assets/logo_128.svg" width="128" height="128" id="logo" />
             <a>Login</a>
         </div>
 

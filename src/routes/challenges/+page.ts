@@ -1,5 +1,5 @@
 import { API_URL } from "$lib/api.ts";
-import type { ChallengeListingResponse } from "$types/challenges";
+import type { ChallengeListing, ChallengeListingResponse } from "$types/challenges";
 
 export async function load(): Promise<ChallengeListingResponse> {
     let res = await fetch(`${API_URL}/challenges/list`, { method: "GET", headers: { "Content-Type": "application/json" }, credentials: "include"});
@@ -10,5 +10,10 @@ export async function load(): Promise<ChallengeListingResponse> {
     }
 
     let obj = await res.json();
-    return obj;
+    if(obj.success) {
+        console.log(obj["data"])
+        return { success: true, challenges: obj["data"] as Array<ChallengeListing> };
+    } else {
+        return { success: false, challenges: []};
+    }
 }
