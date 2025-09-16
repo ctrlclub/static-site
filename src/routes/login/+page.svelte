@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { LoginResponse, LoginAttempt } from "$types/auth.ts";
     import { attemptLogin, validateEmail, validatePassword } from "$lib/auth.ts";
+    import { goto } from "$app/navigation";
 
 
     let email = $state("");
@@ -38,7 +39,7 @@
         let loginResponse: LoginResponse = await attemptLogin(credentials);
 
         if(loginResponse.success) {
-            window.location.href = "/challenges";
+            goto("/challenges");
             return;
         }
 

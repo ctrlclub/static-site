@@ -42,7 +42,7 @@
     {:else if Object.keys(challengeObj).length != 0}
         <a>Error loading content: {data["errorReason"]}</a>
     {:else}
-        <a>Loading...</a>
+        <!-- <a>Loading...</a> -->
     {/if}
 </div>
 
@@ -63,7 +63,11 @@
 
         margin-top: 10px;
 
-        border-left: 2px solid #333;
+        border-left: 2px solid #666;
+    }
+
+    .card:hover {
+        border-left: 2px solid #000;
     }
 
     .card-header {

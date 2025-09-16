@@ -1,6 +1,8 @@
 <script lang="ts">
     import { API_URL } from "$lib/api.ts";
     import ChallengeCard from "$components/ChallengeCard.svelte";
+    import { goto } from "$app/navigation";
+
 
     export let data: ChallengeListingResponse = {};
 
@@ -11,7 +13,7 @@
             credentials: "include"
         });
 
-        window.location.href = "/login";
+        goto("/login");
     }
 
     function openedChallenge(id: string, unlocked: boolean) {
@@ -20,19 +22,16 @@
         // opening challenge
         console.log("opened cha;llenge");
         
-        window.location.href = `/challenges/${id + 1}`;
+        goto(`/challenges/${id + 1}`);
     }
 </script>
 
 <div id="container">
 {#if data.challenges.length == 0}
-    <a>Loading...</a>
+    <!-- <a>Loading...</a> -->
 {:else}
     <button on:click={() => { logout(); }}> Logout </button>
     <h1>Challenges:</h1>
-    {#if data.challenges.length == 0}
-        Loading...
-    {:else}
     <div id="card-container">
         {#each data.challenges as challenge, idx}
             <ChallengeCard
@@ -45,7 +44,6 @@
             />
         {/each}
     </div>
-    {/if}
 {/if}
 </div>
 

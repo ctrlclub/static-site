@@ -7,9 +7,9 @@
 
     onMount(async () => {
         if(await isLoggedIn()) {
-            window.location.href = "/challenges";
+            goto("/challenges");
         } else {
-            window.location.href = "/login";
+            goto("/login");
         }
     });
 
