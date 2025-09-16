@@ -20,31 +20,32 @@
         if(!unlocked) return;
 
         // opening challenge
-        console.log("opened cha;llenge");
+        console.log("opened challenge");
         
         goto(`/challenges/${id + 1}`);
     }
 </script>
 
 <div id="container">
-{#if data.challenges.length == 0}
-    <!-- <a>Loading...</a> -->
-{:else}
     <button on:click={() => { logout(); }}> Logout </button>
-    <h1>Challenges:</h1>
-    <div id="card-container">
-        {#each data.challenges as challenge, idx}
-            <ChallengeCard
-                challengeName={challenge.name}
-                challengeId={challenge.challengeId + 1}
-                challengeUnlocked={challenge.unlocked}
-                numSubchallenges={challenge.numSubchallenges}
-                completedSubchallenges={challenge.completedSubchallenges}
-                on:click={() => { openedChallenge(challenge.challengeId, challenge.unlocked); }}
-            />
-        {/each}
-    </div>
-{/if}
+
+    {#if data.challenges.length == 0}
+        <!-- <a>Loading...</a> -->
+    {:else}
+        <h1>Challenges:</h1>
+        <div id="card-container">
+            {#each data.challenges as challenge, idx}
+                <ChallengeCard
+                    challengeName={challenge.name}
+                    challengeId={challenge.challengeId + 1}
+                    challengeUnlocked={challenge.unlocked}
+                    numSubchallenges={challenge.numSubchallenges}
+                    completedSubchallenges={challenge.completedSubchallenges}
+                    on:click={() => { openedChallenge(challenge.challengeId, challenge.unlocked); }}
+                />
+            {/each}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -53,14 +54,17 @@
 
         width: 100vw;
         height: 100vh;
+
+        padding-top: 100px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     #card-container {
         width: 50vw;
-        margin-left: 200px;
 
-        border: 1px solid #efe1d6;
-        
         display: flex;
         flex-wrap: wrap;
         flex-direction: row-reverse;
