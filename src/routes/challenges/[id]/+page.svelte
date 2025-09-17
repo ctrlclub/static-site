@@ -11,22 +11,36 @@
     let challengeObj: ChallengeFetch = {};
     $: challengeId = "null";
     onMount(async () => {
-        challengeId = data.id;
-        let res = await fetch(`${API_URL}/challenges/${data.id}`, { method: "GET", headers: { "Content-Type": "application/json" }, credentials: "include"});
+        challengeId = data.id - 1;
+        let res = await fetch(`${API_URL}/challenges/${challengeId}`, { method: "GET", headers: { "Content-Type": "application/json" }, credentials: "include"});
         let json = await res.json();
         
         data = json as ChallengeFetch;
         if(data["success"]) {
             challengeObj = data["data"];
         }
-        console.log(challengeObj)
     });
+
+    async function submitAnswer(scId: number) {
+        let answer = document.getElementById("answerbox-" + scId).value;
+        let payload = { challengeId: challengeId, subchallengeId: scId, answer: answer };
+
+        let res = await fetch(`${API_URL}/challenges/submit`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+            credentials: "include"
+        });
+
+        let result = await res.json();
+        console.log(result)
+    }
 
 </script>
 
 <div id="container">
     {#if data["success"] == true}
-        <div>Challenge {challengeId}...</div>
+        <div>Challenge {challengeId + 1}...</div>
         
         {#each challengeObj as sc, index}
             <div class="card">
@@ -34,6 +48,14 @@
                     <h2 slot='header' class="card-header" class:completed-header={sc.completed}><span>Part {sc.subchallengeId + 1}<span/><span class="completed-header">{sc.completed ? " (completed)" : ""}</span></h2>
                     <div slot='body' class="card-body">
                         <MarkdownContainer text={sc.content} inline={false} highlighting={true}/>
+
+                        {#if !sc.completed}
+                            <form on:submit|preventDefault={() => submitAnswer(index) }>
+                                <input id={"answerbox-" + index} type="text" name="answer" placeholder="Answer" required>
+                                <button type="submit">Submit</button>
+                            </form>
+                        {/if}
+
                     </div>
                 </CollapsibleCard>
             </div>
