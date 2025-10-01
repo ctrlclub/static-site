@@ -1,5 +1,5 @@
 import type { LoginAttempt, LoginResponse } from "$types/auth";
-import { API_URL } from "$lib/api.ts";
+import { API_URL } from "$lib/api";
 
 
 export const validateEmail = (v: string) =>

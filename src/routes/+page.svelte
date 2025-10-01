@@ -3,7 +3,7 @@
     import { goto } from "$app/navigation";
     import { onMount } from 'svelte';
 
-    import { API_URL } from "$lib/api.ts";
+    import { API_URL } from "$lib/api";
 
     onMount(async () => {
         if(await isLoggedIn()) {

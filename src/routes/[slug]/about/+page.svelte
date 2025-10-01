@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { API_URL } from "$lib/api.ts";
+    import { API_URL } from "$lib/api";
 
     export let data = {};
 

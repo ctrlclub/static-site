@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { API_URL } from "$lib/api.ts";
+    import { API_URL } from "$lib/api";
     import ChallengeCard from "$components/ChallengeCard.svelte";
     import { goto } from "$app/navigation";
+    import { onMount } from "svelte";
 
 
     export let data: ChallengeListingResponse = {};
@@ -20,10 +21,14 @@
         if(!unlocked) return;
 
         // opening challenge
-        console.log("opened challenge");
-        
         goto(`/challenges/${id + 1}`);
     }
+
+    onMount(() => {
+        if(data.success == false) {
+            goto("/login");
+        }
+    });
 </script>
 
 <div id="container">
@@ -56,6 +61,7 @@
         height: 100vh;
 
         padding-top: 100px;
+        box-sizing: border-box;
 
         display: flex;
         flex-direction: column;

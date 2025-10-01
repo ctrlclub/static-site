@@ -1,12 +1,14 @@
 <script lang="ts">
-    import { API_URL } from "$lib/api.ts";
+    import { API_URL } from "$lib/api";
     import type { ChallengeFetch } from "$types/challenges";
     import { onMount } from 'svelte';
     import MarkdownContainer from "$components/MarkdownContainer.svelte";
-    import { CollapsibleCard } from 'svelte-collapsible'
+    import { CollapsibleCard } from 'svelte-collapsible';
+    import { goto } from "$app/navigation";
 
 
     export let data;
+    export let subchallengeResponse = "";
 
     let challengeObj: ChallengeFetch = {};
     $: challengeId = "null";
@@ -19,6 +21,8 @@
         if(data["success"]) {
             challengeObj = data["data"];
         }
+
+        console.log(challengeObj)
     });
 
     async function submitAnswer(scId: number) {
@@ -34,6 +38,20 @@
 
         let result = await res.json();
         console.log(result)
+        if(result.success == false) {
+            subchallengeResponse = "Error submitting answer: " + result.errorReason;
+            return;
+        }
+
+        if(result.data.correct == false) {
+            subchallengeResponse = "That's not quite right: " + result.data.userFeedback;
+            return;
+        }
+
+        if(result.data.correct) {
+            // refresh page? maybe
+
+        }
     }
 
 </script>
@@ -44,8 +62,8 @@
         
         {#each challengeObj as sc, index}
             <div class="card">
-                <CollapsibleCard open={!sc.completed}>
-                    <h2 slot='header' class="card-header" class:completed-header={sc.completed}><span>Part {sc.subchallengeId + 1}<span/><span class="completed-header">{sc.completed ? " (completed)" : ""}</span></h2>
+                <CollapsibleCard open={!sc.completed || challengeObj.length - 1 == sc.subchallengeId}>
+                    <h2 slot='header' class="card-header" class:completed-header={sc.completed}><span>Part {sc.subchallengeId + 1}<span/><span class="completed-header">{sc.completed ? " (complete 🎉)" : ""}</span></h2>
                     <div slot='body' class="card-body">
                         <MarkdownContainer text={sc.content} inline={false} highlighting={true}/>
 
@@ -54,6 +72,7 @@
                                 <input id={"answerbox-" + index} type="text" name="answer" placeholder="Answer" required>
                                 <button type="submit">Submit</button>
                             </form>
+                            {subchallengeResponse}
                         {/if}
 
                     </div>
@@ -103,7 +122,6 @@
 
 
     .completed-header {
-        text-decoration: line-through;
         color: #777;
     }
 </style>

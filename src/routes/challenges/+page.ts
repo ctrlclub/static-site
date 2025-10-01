@@ -1,5 +1,6 @@
-import { API_URL } from "$lib/api.ts";
+import { API_URL } from "$lib/api";
 import type { ChallengeListing, ChallengeListingResponse } from "$types/challenges";
+import { redirect } from "@sveltejs/kit";
 
 export async function load(): Promise<ChallengeListingResponse> {
     let res = await fetch(`${API_URL}/challenges/list`, { method: "GET", headers: { "Content-Type": "application/json" }, credentials: "include"});
@@ -11,9 +12,12 @@ export async function load(): Promise<ChallengeListingResponse> {
 
     let obj = await res.json();
     if(obj.success) {
-        console.log(obj["data"])
         return { success: true, challenges: obj["data"] as Array<ChallengeListing> };
     } else {
-        return { success: false, challenges: []};
+        console.warn("Status was 200 but no challenges were returned, assumed unauthenticated: " + obj["errorReason"]);
+        console.warn("Hence, redirecting user to login.");
+
+        return { success: false, challenges: [] };
     }
 }
+
