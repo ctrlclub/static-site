@@ -26,10 +26,10 @@
                     // wrap code block with copy button
                     return showCopy ? `
                         <div class="code-block">
-                        <div class="code-section"><pre style="min-width: 70%; box-sizing: border-box; padding-right: 100px;"><code class="hljs ${realLang}">${highlighted}</code></pre></div>
+                        <div class="code-section"><pre class="inner-code-wrapper"><code class="hljs ${realLang}">${highlighted}</code></pre></div>
                         <button class="copy-btn">Copy Dataset</button>
                         </div>
-                    ` : `<div class="code-block"><pre style="min-width: 70%; box-sizing: border-box; padding-right: 100px;"><code class="hljs ${realLang}">${highlighted}</code></pre></div>`;
+                    ` : `<div class="code-block"><pre class="inner-code-wrapper"><code class="hljs ${realLang}">${highlighted}</code></pre></div>`;
                 } catch (__) {}
             }
             return ""; // use external default escaping
@@ -58,7 +58,7 @@
     if(parameters.inline) {
         result = md.renderInline(parameters.text);
     } else {
-        result = md.render(parameters.text);
+        result = md.render("---\n" + parameters.text);
     }
 </script>
 
