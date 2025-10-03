@@ -22,7 +22,16 @@
             challengeObj = data["data"];
         }
 
-        console.log(challengeObj)
+        document.addEventListener("click", (event) => {
+            if(event.target.classList.contains("copy-btn")) {
+                let code = event.target.previousElementSibling.querySelector("code").innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    event.target.innerText = "Copied!";
+                    event.target.classList.add("copied");
+                    setTimeout(() => { event.target.innerText = "Copy Dataset"; event.target.classList.remove("copied"); }, 1500);
+                });
+            }
+        });
     });
 
     async function submitAnswer(scId: number) {
@@ -53,6 +62,8 @@
 
         }
     }
+
+
 
 </script>
 
@@ -135,4 +146,60 @@
     :global(.hint:hover) {
         filter: none;
     }
+
+    :global(.code-block) {
+        display: flex;
+        align-items: center;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        width: 100%;
+    }
+
+    :global(.code-section) {
+        width: 80%;
+    }
+
+    :global(.hljs) {
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        box-shadow:
+            0px 6px 16px -4px rgba(0, 0, 0, 0.06),
+            0px 4px 6px -4px rgba(0, 0, 0, 0.08);
+    }
+
+    :global(code) {
+        width: 110%;
+    }
+
+    :global(.copy-btn) {
+        width: 120px;
+        height: 40px;
+
+        background-color: white;
+
+        border: 2px solid #333;
+        border-radius: 5px;
+
+        -webkit-box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
+        -moz-box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
+        box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
+
+        padding: 8px 12px 8px 12px;
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    :global(.copy-btn:hover) {
+        background-color: #ddd;
+    }
+
+    :global(.copy-btn.copied) {
+        background-color: #efe;
+        border: 2px solid #3a813c;
+        pointer-events: none;
+    }
 </style>
+

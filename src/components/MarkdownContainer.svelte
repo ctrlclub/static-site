@@ -16,9 +16,20 @@
     let mdParameters = { breaks: true, };
     if(parameters.highlighting) {
         mdParameters["highlight"] = (str, lang) => {
-            if (lang && hljs.getLanguage(lang) && parameters.highlighting) {
+            let showCopy = (lang.replace(" ", "").endsWith("+copy"));
+            console.log(showCopy)
+            let realLang = showCopy ? lang.substring(0, lang.indexOf("+")) : lang;
+
+            if (realLang && hljs.getLanguage(realLang) && parameters.highlighting) {
                 try {
-                    return hljs.highlight(str, { language: lang }).value;
+                    const highlighted = hljs.highlight(str, { language: realLang }).value;
+                    // wrap code block with copy button
+                    return showCopy ? `
+                        <div class="code-block">
+                        <div class="code-section"><pre style="min-width: 70%; box-sizing: border-box; padding-right: 100px;"><code class="hljs ${realLang}">${highlighted}</code></pre></div>
+                        <button class="copy-btn">Copy Dataset</button>
+                        </div>
+                    ` : `<div class="code-block"><pre style="min-width: 70%; box-sizing: border-box; padding-right: 100px;"><code class="hljs ${realLang}">${highlighted}</code></pre></div>`;
                 } catch (__) {}
             }
             return ""; // use external default escaping
