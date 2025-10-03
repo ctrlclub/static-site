@@ -1,14 +1,16 @@
 <script lang="ts">
     import { API_URL } from "$lib/api";
-    import type { ChallengeFetch } from "$types/challenges";
+    import type { ChallengeFetch, SubmissionPopup } from "$types/challenges";
     import { onMount } from 'svelte';
     import MarkdownContainer from "$components/MarkdownContainer.svelte";
+    import SubmissionResult from "$components/SubmissionResult.svelte";
     import { CollapsibleCard } from 'svelte-collapsible';
     import { goto } from "$app/navigation";
 
 
     export let data;
     export let subchallengeResponse = "";
+    export let popupData: SubmissionPopup | null = null;
 
     let challengeObj: ChallengeFetch = {};
     $: challengeId = "null";
@@ -46,21 +48,27 @@
         });
 
         let result = await res.json();
-        console.log(result)
+
+
         if(result.success == false) {
-            subchallengeResponse = "Error submitting answer: " + result.errorReason;
-            return;
+            let popup: SubmissionPopup = { answerCorrect: false, feedback: `Error submitting answer: ${result.errorReason}` };
+            popupData = popup;
         }
 
         if(result.data.correct == false) {
-            subchallengeResponse = "That's not quite right: " + result.data.userFeedback;
-            return;
+            let popup: SubmissionPopup = { answerCorrect: false, feedback: `That's not quite right... ${result.data.userFeedback}` };
+            popupData = popup;
         }
 
         if(result.data.correct) {
-            // refresh page? maybe
-
+            let popup: SubmissionPopup = { answerCorrect: true, feedback: `Amazing! That's the correct answer.` };
+            popupData = popup;
         }
+    }
+
+
+    function handleSubmitContinue() {
+        window.location.reload();
     }
 
 
@@ -76,7 +84,7 @@
                 <CollapsibleCard open={!sc.completed || challengeObj.length - 1 == sc.subchallengeId}>
                     <h2 slot='header' class="card-header" class:completed-header={sc.completed}><span>Part {sc.subchallengeId + 1}<span/><span class="completed-header">{sc.completed ? " (complete 🎉)" : ""}</span></h2>
                     <div slot='body' class="card-body">
-                        <MarkdownContainer text={sc.content} inline={false} highlighting={true}/>
+                        <MarkdownContainer text={sc.content + (sc.answer == null ? "" : "\nYou answered: **" + sc.answer + "**")} inline={false} highlighting={true}/>
 
                         {#if !sc.completed}
                             <form on:submit|preventDefault={() => submitAnswer(index) }>
@@ -98,6 +106,9 @@
     {/if}
 </div>
 
+{#if popupData}
+    <SubmissionResult {...popupData} callback={handleSubmitContinue} />
+{/if}
 
 
 
@@ -113,7 +124,7 @@
         margin-left: 20px;
         padding-left: 20px;
 
-        margin-top: 10px;
+        margin-top: 30px;
 
         border-left: 2px solid #666;
 
@@ -131,7 +142,7 @@
         font-family: "Roboto Mono", monospace;
         font-weight: 500;
         
-        margin: 8px 0px 8px 0px;
+        margin: 8px 300px 8px 0px;
     }
 
 
@@ -163,14 +174,25 @@
 
     :global(.hljs) {
         border-radius: 6px;
-        border: 1px solid #ddd;
+        border: 1px solid #cacaca;
         box-shadow:
             0px 6px 16px -4px rgba(0, 0, 0, 0.06),
             0px 4px 6px -4px rgba(0, 0, 0, 0.08);
     }
 
     :global(code) {
-        width: 110%;
+        width: 105%;
+    }
+
+    :global(pre:not(.inner-code-wrapper)) {
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+
+    :global(.inner-code-wrapper) {
+        min-width: 70%;
+        box-sizing: border-box;
+        padding-right: 100px;
     }
 
     :global(.copy-btn) {

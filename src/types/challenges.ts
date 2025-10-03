@@ -24,3 +24,11 @@ export interface SubchallengeContent {
     completed: boolean;
     answer: string;
 }
+
+
+
+export interface SubmissionPopup {
+    answerCorrect: boolean;
+    feedback: string;
+    callback: (() => {});
+}
