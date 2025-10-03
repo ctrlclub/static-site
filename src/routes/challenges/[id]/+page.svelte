@@ -105,6 +105,9 @@
         margin-top: 10px;
 
         border-left: 2px solid #666;
+
+        max-width: 60vw;
+        overflow: auto;
     }
 
     .card:hover {
@@ -123,5 +126,13 @@
 
     .completed-header {
         color: #777;
+    }
+
+    :global(.hint) {
+        filter: blur(4px);
+        cursor: pointer;
+    }
+    :global(.hint:hover) {
+        filter: none;
     }
 </style>

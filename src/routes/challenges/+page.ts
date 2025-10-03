@@ -11,6 +11,7 @@ export async function load(): Promise<ChallengeListingResponse> {
     }
 
     let obj = await res.json();
+    console.log(obj)
     if(obj.success) {
         return { success: true, challenges: obj["data"] as Array<ChallengeListing> };
     } else {

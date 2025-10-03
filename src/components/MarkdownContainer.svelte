@@ -1,5 +1,6 @@
 <script lang="ts">
     import markdownit from "markdown-it";
+    import container from "markdown-it-container";
     import hljs from "highlight.js";
     import "highlight.js/styles/github.css"; // this style can be edited as needed
 
@@ -24,6 +25,22 @@
         };
     }
     const md = markdownit(mdParameters);
+
+    // add a custom container called "hint"
+    md.use(container, "hint", {
+        validate: params => {
+            return params.trim().match(/^hint$/); // only ::: hint blocks
+        },
+        render: (tokens, idx) => {
+            if (tokens[idx].nesting === 1) {
+                // opening tag
+                return '<div class="hint">\n';
+            } else {
+                // closing tag
+                return '</div>\n';
+            }
+        }
+    });
 
     // render text to md
     let result;
