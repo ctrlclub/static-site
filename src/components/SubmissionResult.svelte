@@ -134,6 +134,8 @@
 
         background-size: 400% 400%;
         animation: scrollGradient 1.5s ease-in-out infinite;
+
+        color: white;
     }
 
     @keyframes scrollGradient {
