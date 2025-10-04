@@ -1,50 +1,35 @@
 <script lang="ts">
     import { API_URL } from "$lib/api";
     import type { ChallengeFetch, SubmissionPopup } from "$types/challenges";
-    import { onMount, mount } from 'svelte';
     import MarkdownContainer from "$components/MarkdownContainer.svelte";
     import CompletenessIndicator from "$components/CompletenessIndicator.svelte";
     import SubmissionResult from "$components/SubmissionResult.svelte";
-    import HintContainer from "$components/HintContainer.svelte";
     import { CollapsibleCard } from 'svelte-collapsible';
     import { goto } from "$app/navigation";
 
     import "$components/Globals.css";
 
 
-    export let data;
-    export let subchallengeResponse = "";
-    export let popupData: SubmissionPopup | null = null; /*{ answerCorrect: true, feedback: "THAT IS CORRECT!", callback: handleSubmitContinue };*/
+    let { data }: ChallengeFetch = $props();
+    let challengeId = data.challengeId;
+    let challengeObj = data.data;
 
-    let challengeObj: ChallengeFetch = { success: false, data: []};
-    $: challengeId = "null";
-    onMount(async () => {
-        challengeId = data.id - 1;
-        let res = await fetch(`${API_URL}/challenges/${challengeId}`, { method: "GET", headers: { "Content-Type": "application/json" }, credentials: "include"});
-        let json = await res.json();
-        console.log(json)
-        
-        data = json as ChallengeFetch;
-        if(data["success"]) {
-            challengeObj = data["data"];
-            console.log(challengeObj)
+    let popupData: SubmissionPopup | null = $state(null);
+
+    document.addEventListener("click", (event) => {
+        if(event.target.classList.contains("copy-btn")) {
+            let code = event.target.previousElementSibling.querySelector("code").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                event.target.innerText = "Copied!";
+                event.target.classList.add("success");
+                setTimeout(() => { event.target.innerText = "Copy Dataset"; event.target.classList.remove("success"); }, 1500);
+            });
         }
 
-        document.addEventListener("click", (event) => {
-            if(event.target.classList.contains("copy-btn")) {
-                let code = event.target.previousElementSibling.querySelector("code").innerText;
-                navigator.clipboard.writeText(code).then(() => {
-                    event.target.innerText = "Copied!";
-                    event.target.classList.add("success");
-                    setTimeout(() => { event.target.innerText = "Copy Dataset"; event.target.classList.remove("success"); }, 1500);
-                });
-            }
-
-            const closest = event.target.closest(".hint");
-            if(event.target.classList.contains("hint") || closest) {
-                closest.classList.toggle("hint-blurred");
-            }
-        });
+        const closest = event.target.closest(".hint");
+        if(event.target.classList.contains("hint") || closest) {
+            closest.classList.toggle("hint-blurred");
+        }
     });
 
     async function submitAnswer(scId: number) {
@@ -81,22 +66,19 @@
     function handleSubmitContinue() {
         window.location.reload();
     }
-
-
-
 </script>
 
 
 <div id="container">
-    {#if data["success"] == true}
+    {#if data.success == true}
         <div id="card-container">
             <div id="challenge-title">
-                {challengeObj["challengeName"]}
-                <CompletenessIndicator current={challengeObj["subchallenges"].length - (challengeObj["subchallenges"][challengeObj["subchallenges"].length - 1].completed ? 0 : 1)} total={challengeObj["totalSubchallenges"]} />
+                {challengeObj.challengeName}
+                <CompletenessIndicator current={challengeObj.subchallenges.length - (challengeObj.subchallenges[challengeObj.subchallenges.length - 1].completed ? 0 : 1)} total={challengeObj.totalSubchallenges} />
             </div>
-            {#each challengeObj["subchallenges"] as sc, index}
+            {#each challengeObj.subchallenges as sc, index}
                 <div class="card cartoon-border">
-                    <CollapsibleCard open={!sc.completed || challengeObj["subchallenges"].length - 1 == sc.subchallengeId}>
+                    <CollapsibleCard open={!sc.completed || challengeObj.subchallenges.length - 1 == sc.subchallengeId}>
                         <h2 slot='header' class="card-header" class:completed-header={sc.completed}><span>Part {sc.subchallengeId + 1}<span/><span class="completed-header">{sc.completed ? " (complete 🎉)" : ""}</span></h2>
                         <div slot='body' class="card-body">
                             <MarkdownContainer text={sc.content} inline={false} highlighting={true}/>
@@ -106,7 +88,6 @@
                                     <input class="answer-box" id={"answerbox-" + index} type="text" name="answer" placeholder="Answer" required>
                                     <button class="cartoon-button" type="submit">Submit</button>
                                 </form>
-                                {subchallengeResponse}
                             {:else}
                                 <form class="answer-form" on:submit|preventDefault={() => submitAnswer(index) }>
                                     <input class="answer-box success" type="text" name="answer" value={sc.answer} disabled>
@@ -121,9 +102,8 @@
                 </div>
             {/each}
         </div>
-    {:else if challengeObj["subchallenges"] && Object.keys(challengeObj["subchallenges"]).length != 0}
-        <a>Error loading content: {data["errorReason"]}</a>
     {:else}
+        <a>Error loading content: {data.errorReason}</a>
     {/if}
 
     <div id="back">

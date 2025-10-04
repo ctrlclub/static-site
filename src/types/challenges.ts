@@ -22,7 +22,8 @@ export interface ChallengeContent {
 export interface ChallengeFetch {
     success: boolean;
     errorReason: string;
-    data: ChallengeContent;
+    challengeId: number;
+    data: ChallengeContent | undefined;
 }
 
 
