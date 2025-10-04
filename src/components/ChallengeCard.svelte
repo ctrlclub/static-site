@@ -1,5 +1,6 @@
 <script lang="ts">
     import CompletenessIndicator from "$components/CompletenessIndicator.svelte";
+    import "$components/Globals.css";
 
     import { createEventDispatcher } from "svelte"; // propgate click events to parent
     const dispatch = createEventDispatcher();
@@ -20,7 +21,7 @@
 </script>
 
 
-<div id="container" class:card-locked={!parameters.challengeUnlocked} on:click={clicked}>
+<div class="cartoon-button" id="container" class:card-locked={!parameters.challengeUnlocked} on:click={clicked}>
     <div id="card-header">
         <a id="challenge-id">Challenge {parameters.challengeId}</a>
         <a id="challenge-unlocked-indicator" class:locked-status={!parameters.challengeUnlocked}>●</a>
@@ -38,43 +39,34 @@
 
 <style>
     #container {
-        background-color: white;
-        
         width: 290px;
         height: 110px;
-
-        border: 2px solid #333;
-        border-radius: 5px;
-
-        -webkit-box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
-        -moz-box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
-        box-shadow: 0px 10px 24px -13px rgba(107, 74, 51, 0.65);
 
         padding: 8px 12px 8px 12px;
 
         display: flex;
         flex-direction: column;
 
-        transition: 0.2s;
-        user-select: none;
+    }
+
+    .cartoon-button.card-locked:hover {
+        cursor: not-allowed;
+        transform: none !important;
+
+        box-shadow:         5px 5px 0px -1px rgba(0,0,0,0.68);
+        -webkit-box-shadow: 5px 5px 0px -1px rgba(0,0,0,0.68);
+        -moz-box-shadow:    5px 5px 0px -1px rgba(0,0,0,0.68);
+
+        background-color: #fafafa;
+    }
+
+    .cartoon-button:not(.card-locked):hover #challenge-name {
+        color: #000000 !important;
+        font-weight: 500;
     }
 
     .card-locked {
         filter: brightness(75%) saturate(80%);
-    }
-
-    #container:not(.card-locked):hover {
-        cursor: pointer;
-        transform: translateY(-5px);
-    }
-
-    #container.card-locked {
-        cursor: not-allowed;
-    }
-
-    #container:not(.card-locked):hover #challenge-name {
-        color: #000000 !important;
-        font-weight: 500;
     }
 
 

@@ -1,0 +1,66 @@
+* {
+    outline: none;
+}
+
+
+.cartoon-button, .cartoon-input, .cartoon-border {
+    background-color: #fafafa;
+
+    font-family: "Roboto Mono", monospace;
+    font-weight: 400;
+
+    border: 2px solid #111;
+    border-radius: 5px;
+
+    box-shadow:         5px 5px 0px -1px rgba(0,0,0,0.68);
+    -webkit-box-shadow: 5px 5px 0px -1px rgba(0,0,0,0.68);
+    -moz-box-shadow:    5px 5px 0px -1px rgba(0,0,0,0.68);
+}
+
+.cartoon-border {
+    box-shadow:         11px 11px 0px -1px rgba(0,0,0,0.68);
+    -webkit-box-shadow: 11px 11px 0px -1px rgba(0,0,0,0.68);
+    -moz-box-shadow:    11px 11px 0px -1px rgba(0,0,0,0.68);
+}
+
+
+
+.cartoon-button {
+    padding: 10px 15px 10px 15px;
+
+    outline: none;
+    transition: 0.2s;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.cartoon-button:not(.cartoon-button-disabled):hover {
+    transform: translateY(1px) translateX(1px);
+
+    box-shadow:         3px 3px 0px -1px rgba(0,0,0,0.68);
+    -webkit-box-shadow: 3px 3px 0px -1px rgba(0,0,0,0.68);
+    -moz-box-shadow:    3px 3px 0px -1px rgba(0,0,0,0.68);
+
+    background-color: #ddd;
+}
+
+.cartoon-button-disabled {
+    filter: brightness(80%);
+}
+
+.success {
+    background-color: #d3f1d9 !important;
+    border: 2px solid #47a259 !important;
+    pointer-events: none;
+}
+
+/* just fix the width for the copy button */
+.copy-btn {
+    text-align: center;
+    width: 130px;
+}
+
+.open {
+    margin-bottom: 8px;
+}
