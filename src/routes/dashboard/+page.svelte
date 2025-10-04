@@ -5,9 +5,6 @@
     let { data }: LoadDashboard = $props();
     let challenges: ChallengeEntry[] = $state(data.content.challenges);
 
-
-
-
     function addChallenge() {
         let newId = parseInt(document.getElementById("challenge-id").value);
             
