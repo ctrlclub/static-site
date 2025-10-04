@@ -119,6 +119,8 @@
 <style>
 #container {
     background-color: #fff1e6;
+    background-image: radial-gradient(#00000030 1px, transparent 1px);
+    background-size: 26px 26px;
 
     max-width: 100vw;
     min-height: 100vh;

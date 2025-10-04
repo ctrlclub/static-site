@@ -187,7 +187,7 @@
         color: white;
         transition: 0.2s;
 
-        background-color: #322222;
+        background-color: #423b2a;
 
     }
 

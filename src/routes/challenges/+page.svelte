@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
 
 
-    export let data: ChallengeListingResponse = {};
+    let { data }: ChallengeListingResponse = $props();
 
     async function logout() {
         await fetch(API_URL + "/auth/logout", {
@@ -23,21 +23,14 @@
         // opening challenge
         goto(`/challenges/${id + 1}`);
     }
-
-    onMount(() => {
-        if(data.success == false) {
-            goto("/login");
-        }
-    });
 </script>
 
 <div id="container">
-    <button on:click={() => { logout(); }}> Logout </button>
-
-    {#if data.challenges.length == 0}
-        <!-- <a>Loading...</a> -->
-    {:else}
-        <h1>Challenges:</h1>
+    {#if data.success}
+        <div id="header">
+            <h1>Challenges</h1>
+            <a id="description">Test your knowledge with code challenges, designed to teach your skills related to your NEA. Dive into easy, medium or hard challenges based on your preference.</a>
+        </div>
         <div id="card-container">
             {#each data.challenges as challenge, idx}
                 <ChallengeCard
@@ -50,12 +43,15 @@
                 />
             {/each}
         </div>
+    {:else}
     {/if}
 </div>
 
 <style>
     #container {
         background-color: #fff1e6;
+        background-image: radial-gradient(#00000030 1px, transparent 1px);
+        background-size: 26px 26px;
 
         width: 100vw;
         height: 100vh;
@@ -70,6 +66,7 @@
 
     #card-container {
         width: 50vw;
+        margin-top: 20px;
 
         display: flex;
         flex-wrap: wrap;
@@ -78,5 +75,27 @@
         align-content: flex-start;
 
         gap: 15px;
+    }
+
+    #header {
+        font-weight: 600;
+        font-size: 1.3em;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        max-width: 600px;
+
+        background-color: #fff1e6;
+        padding: 10px 60px 30px 60px;
+    }
+
+    #description {
+        font-weight: 400;
+        font-size: 0.8em;
+
+        text-align: center;
     }
 </style>
