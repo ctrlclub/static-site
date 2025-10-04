@@ -9,8 +9,6 @@
         let newId = parseInt(document.getElementById("challenge-id").value);
             
         challenges.push({ challengeId: newId, visible: false, unlocked: false });
-
-        console.log(challenges)
     }
 
     function removeChallenge(challengeId: number) {
@@ -22,6 +20,18 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(challenges),
+            credentials: "include"
+        });
+    }
+
+    async function resetUserChallenge() {
+        let userId = document.getElementById("user-id-reset").value;
+        let challengeId = parseInt(document.getElementById("challenge-id-reset").value);
+
+        await fetch(`${API_URL}/dashboard/reset-challenge`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, challengeId }),
             credentials: "include"
         });
     }
@@ -56,7 +66,17 @@
             + Add Challenge
         </button>
         <button on:click={submitChallengeChanges} class="">
-            SUBMIT CHANGES
+            Submit Changes (be careful)
+        </button>
+
+        <br><br><br><br>
+        <h1>Challenge Reset</h1>
+        <b>REMEMBER!! Subtracting 1 from the challenge ID, they are 0-indexed</b>
+        <br>
+        <input id="user-id-reset" type="email" placeholder="User ID">
+        <input id="challenge-id-reset" type="email" placeholder="Challenge ID">
+        <button on:click={resetUserChallenge} class="">
+            Reset (be careful)
         </button>
 
 
