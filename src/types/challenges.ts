@@ -12,11 +12,19 @@ export interface ChallengeListingResponse {
 }
 
 
+
+export interface ChallengeContent {
+    subchallenges: SubchallengeContent[];
+    challengeName: string;
+    totalSubchallenges: number;
+}
+
 export interface ChallengeFetch {
     success: boolean;
     errorReason: string;
-    data: SubchallengeContent[];
+    data: ChallengeContent;
 }
+
 
 export interface SubchallengeContent {
     subchallengeId: number;
