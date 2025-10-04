@@ -125,6 +125,8 @@
 
         color: black;
         font-weight: 600;
+
+        padding-bottom: 28px;
     }
 
     .gold {

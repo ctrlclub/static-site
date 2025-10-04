@@ -92,7 +92,7 @@
         <div id="card-container">
             <div id="challenge-title">
                 {challengeObj["challengeName"]}
-                <CompletenessIndicator current={challengeObj["subchallenges"].length - 1} total={challengeObj["totalSubchallenges"]} />
+                <CompletenessIndicator current={challengeObj["subchallenges"].length - (challengeObj["subchallenges"][challengeObj["subchallenges"].length - 1].completed ? 0 : 1)} total={challengeObj["totalSubchallenges"]} />
             </div>
             {#each challengeObj["subchallenges"] as sc, index}
                 <div class="card cartoon-border">
@@ -205,7 +205,7 @@
 
     border-left: 2px solid #666;
 
-    max-width: 70vw;
+    width: 70vw;
     overflow: auto;
 }
 
