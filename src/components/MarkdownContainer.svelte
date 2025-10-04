@@ -27,7 +27,7 @@
                     return showCopy ? `
                         <div class="code-block">
                         <div class="code-section"><pre class="inner-code-wrapper"><code class="hljs ${realLang}">${highlighted}</code></pre></div>
-                        <button class="copy-btn">Copy Dataset</button>
+                        <button class="copy-btn cartoon-button">Copy Dataset</button>
                         </div>
                     ` : `<div class="code-block"><pre class="inner-code-wrapper"><code class="hljs ${realLang}">${highlighted}</code></pre></div>`;
                 } catch (__) {}
@@ -45,7 +45,7 @@
         render: (tokens, idx) => {
             if (tokens[idx].nesting === 1) {
                 // opening tag
-                return '<div class="hint">\n';
+                return '<div class="hint hint-blurred">\n';
             } else {
                 // closing tag
                 return '</div>\n';

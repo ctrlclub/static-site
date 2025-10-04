@@ -2,6 +2,7 @@
     import type { SubmissionPopup } from "$types/challenges";
     import { emojiBlast } from "emoji-blast";
     import { onMount } from "svelte";
+    import "$components/Globals.css";
 
     const CORRECT = ["Correct!", "That's right!", "Great job!"];
     const INCORRECT = ["Uh oh!", "Almost...", "So close..."];
@@ -60,19 +61,19 @@
 
 
 <div id="background-overlay">
-    <div id="container">
+    <div id="container" class="cartoon-border">
         <div class="header center">
             {#if props.answerCorrect}
-                <span style="font-size: 0.85em !important;">{"✅"}</span>&nbsp;<span>{randomChoice(CORRECT)}</span>
+                <span style="font-size: 0.75em !important;">{"✅"}</span>&nbsp;<span>{randomChoice(CORRECT)}</span>
             {:else}
-                <span style="font-size: 0.85em !important;">{"❌"}</span>&nbsp;<span>{randomChoice(INCORRECT)}</span>
+                <span style="font-size: 0.75em !important;">{"❌"}</span>&nbsp;<span>{randomChoice(INCORRECT)}</span>
             {/if}
         </div>
 
         <div class="feedback center">
             {props.feedback}
         </div>
-        <div class="button center"><button on:click={props.callback} class="continue">{props.answerCorrect ? "Continue" : "Try Again"}</button></div>
+        <div class="button center"><button on:click={props.callback} class="cartoon-button continue" class:gold={props.answerCorrect}>{props.answerCorrect ? "Continue" : "Try Again"}</button></div>
     </div>
 </div>
 
@@ -99,25 +100,11 @@
         width: 500px;
         height: 320px;
 
-        background: repeating-linear-gradient(
-            45deg,
-            #f0f0f0,
-            #f0f0f0 20px,
-            #f4f4f4 20px,
-            #f4f4f4 40px
-        );
-
         padding: 10px;
-
-        border-radius: 5px;
-        border: 2px solid #222;
-        box-shadow:
-            0px 9px 21px -7px rgba(0, 0, 0, 0.19),
-            0px 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     .header {
-        font-size: 1.5em;
+        font-size: 1.7em;
         font-weight: 600;
     }
 
@@ -132,16 +119,28 @@
         justify-content: center;
     }
 
-    button:hover {
-        cursor: pointer;
-        background-color: #00000020;
-    }
-
     .continue {
-        width: 100px;
+        width: 130px;
         height: 40px;
 
-        border-radius: 5px;
-        transition: 0.2s;
+        color: black;
+        font-weight: 600;
     }
+
+    .gold {
+        background: linear-gradient(146deg,rgba(171, 95, 32, 1) 0%, rgba(171, 95, 32, 1) 41%, rgba(180, 126, 17, 1) 45%, rgba(230, 214, 110, 1) 51%, rgba(188, 136, 27, 1) 57%, rgba(171, 95, 32, 1) 62%, rgba(171, 95, 32, 1) 100%);
+
+        background-size: 400% 400%;
+        animation: scrollGradient 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollGradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 100% 50%;
+        }
+    }    
 </style>
+

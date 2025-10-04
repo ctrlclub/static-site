@@ -3,6 +3,8 @@
     import { attemptLogin, validateEmail, validatePassword } from "$lib/auth.ts";
     import { goto } from "$app/navigation";
 
+    import "$components/Globals.css";
+
 
     let email = $state("");
     let password = $state("");
@@ -50,10 +52,10 @@
 
 <div id="login-page">
 
-    <div id="center">
+    <div id="center" class="cartoon-border">
         <div id="center-title">
             <img src="/assets/logo_128.svg" width="128" height="128" id="logo" />
-            <a>Login</a>
+            <!-- <a>Login</a> -->
         </div>
 
         <div id="login-container">
@@ -89,7 +91,7 @@
                     <p class="form-error">&nbsp;</p>
                 {/if}
               
-                <button id="submit-button" type="submit" disabled={!submitButtonEnabled}>Let's Go ➔</button>
+                <button class="cartoon-button" id="submit-button" type="submit" disabled={!submitButtonEnabled}>Let's Go 👉</button>
 
                 {#if message}
                     <p class="form-error">{message}</p>
@@ -118,10 +120,6 @@
     }
 
     #center {
-        background-color: #fafafa;
-        border: 1px solid #111;
-        border-radius: 5px;
-
         width: 540px;
         height: 600px;
 
@@ -131,10 +129,6 @@
         justify-content: center;
 
         gap: 40px;
-
-        box-shadow: -12px 11px 0px -1px rgba(0,0,0,0.68);
-        -webkit-box-shadow: -12px 11px 0px -1px rgba(0,0,0,0.68);
-        -moz-box-shadow: -12px 11px 0px -1px rgba(0,0,0,0.68);
     }
 
     #logo {
@@ -184,19 +178,17 @@
     }
 
     #submit-button {
-        background: linear-gradient(135deg, #b7b7a4, #797d62);
-        background-position: left top;
-        background-size: 150% 150%;
-        border: 1px solid black;
-        border-radius: 5px;
+        width: 180px;
+        margin-top: 20px;
+        margin-bottom: 10px;
 
-        width: 150px;
-        height: 34px;
+        font-weight: 500;
 
         color: white;
-        transition: 0.55s;
+        transition: 0.2s;
 
-        margin-top: 20px;
+        background-color: #322222;
+
     }
 
     #submit-button:hover {
