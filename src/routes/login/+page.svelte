@@ -24,7 +24,7 @@
     
     async function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
-        message = "";
+        message = "Authenticating...";
 
         submitButtonEnabled = false;
         setTimeout(() => {
