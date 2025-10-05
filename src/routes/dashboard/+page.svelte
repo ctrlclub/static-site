@@ -35,6 +35,18 @@
             credentials: "include"
         });
     }
+
+    async function setUserPassword() {
+        let userId = document.getElementById("user-id-password").value;
+        let newPassword = document.getElementById("new-password").value;
+
+        await fetch(`${API_URL}/dashboard/set-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, newPassword }),
+            credentials: "include"
+        });
+    }
 </script>
 
 <!-- Use the data in template -->
@@ -77,6 +89,15 @@
         <input id="challenge-id-reset" type="email" placeholder="Challenge ID">
         <button on:click={resetUserChallenge} class="">
             Reset (be careful)
+        </button>
+
+        <br><br><br><br>
+        <h1>Password Reset</h1>
+        <br>
+        <input id="user-id-password" type="email" placeholder="User ID">
+        <input id="new-password" type="text" placeholder="New Password">
+        <button on:click={setUserPassword} class="">
+            Update password (be careful)
         </button>
 
 
