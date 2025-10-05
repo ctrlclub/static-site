@@ -34,7 +34,7 @@
         // final check everythings good before submit
         onEmailBlur();
         onPasswordBlur();
-        if(emailError || passwordError) return;
+        if(emailError || passwordError) { message = "Bad email or password"; return; }
 
         let credentials: LoginAttempt = { email: email, password: password };
         console.log("Attempting login...");
