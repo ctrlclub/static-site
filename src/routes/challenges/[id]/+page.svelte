@@ -116,6 +116,7 @@
 {/if}
 
 
+
 <style>
 #container {
     background-color: #fff1e6;
@@ -142,8 +143,12 @@
     font-weight: 600;
     font-size: 2em;
 
-    margin-top: 50px;
+    margin-top: 20px;
     margin-bottom: 20px;
+
+    padding: 60px 100px 40px 100px;
+
+    background-color: #fff1e6;
 }
 
 #back {
