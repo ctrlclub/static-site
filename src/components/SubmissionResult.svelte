@@ -6,6 +6,10 @@
 
     const CORRECT = ["Correct!", "That's right!", "Great job!"];
     const INCORRECT = ["Uh oh!", "Almost...", "So close..."];
+
+    const CORRECT_SUB = ["Wow...", "Amazing!", "Perfect.", "Wonderful!"];
+    const CORRECT_MSG = ["That's exactly right.", "That's the right answer.", "That sounds about right!"];
+
     const emojiConfig = {
         position: () => ({
             x: innerWidth / 2,
@@ -46,7 +50,7 @@
             });
         } else {
             emojiBlast({
-                emojiCount: 50,
+                emojiCount: 30,
                 emojis: ["🥳", "🤯", "🧠", "⚡", "💯", "🎉", "🎈", "✨", "⭐", "✅", "🔥"],
                 ...emojiConfig
             });
@@ -71,7 +75,11 @@
         </div>
 
         <div class="feedback center">
-            {props.feedback}
+            {#if props.answerCorrect}
+                {randomChoice(CORRECT_SUB) + " " + randomChoice(CORRECT_MSG)}
+            {:else}
+                {props.feedback}
+            {/if}
         </div>
         <div class="button center"><button on:click={props.callback} class="cartoon-button continue" class:gold={props.answerCorrect}>{props.answerCorrect ? "Continue" : "Try Again"}</button></div>
     </div>
@@ -145,6 +153,10 @@
         100% {
             background-position: 100% 50%;
         }
-    }    
+    }
+
+    :global(.emoji-styles) {
+        pointer-events: none;
+    }
 </style>
 

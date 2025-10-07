@@ -57,7 +57,7 @@
         }
 
         if(result.data.correct) {
-            let popup: SubmissionPopup = { answerCorrect: true, feedback: `Amazing! That's the correct answer.` };
+            let popup: SubmissionPopup = { answerCorrect: true, feedback: `` /* handle it internally with a random message */ };
             popupData = popup;
         }
     }
