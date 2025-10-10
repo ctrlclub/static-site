@@ -14,6 +14,9 @@
     let challengeId = data.challengeId;
     let challengeObj = data.data;
 
+    let isTeamChallenge = data.teamData != undefined;
+    let teamData = data.teamData;
+
     let popupData: SubmissionPopup | null = $state(null);
 
     document.addEventListener("click", (event) => {
@@ -84,10 +87,19 @@
                             <MarkdownContainer text={sc.content} inline={false} highlighting={true}/>
 
                             {#if !sc.completed}
-                                <form class="answer-form" on:submit|preventDefault={() => submitAnswer(index) }>
-                                    <input class="answer-box" id={"answerbox-" + index} type="text" name="answer" placeholder="Answer" required>
-                                    <button class="cartoon-button" type="submit">Submit</button>
-                                </form>
+                                {#if isTeamChallenge && teamData.isOwner || !isTeamChallenge}
+                                    <form class="answer-form" on:submit|preventDefault={() => submitAnswer(index) }>
+                                        <input class="answer-box" id={"answerbox-" + index} type="text" name="answer" placeholder="Answer" required>
+                                        <button class="cartoon-button" type="submit">Submit</button>
+                                    </form>
+                                    {#if isTeamChallenge}
+                                        <br>
+                                        <a>You are the <span class="gold" style="border-radius: 5px; padding: 0px 4px 2px 4px;">team leader</span>. If you get an answer correct, tell your teammates to refresh their page.</a>
+                                    {/if}
+                                {:else}
+                                    <br>
+                                    <a>Only your team leader <b>{teamData.owner.split("@")[0]}</b> can submit an answer!</a>
+                                {/if}
                             {:else}
                                 <form class="answer-form" on:submit|preventDefault={() => submitAnswer(index) }>
                                     <input class="answer-box success" type="text" name="answer" value={sc.answer} disabled>
@@ -96,19 +108,26 @@
                             {/if}
 
                             <div style="margin-bottom: 23px;"></div> <!-- spacer element -->
-
                         </div>
                     </CollapsibleCard>
                 </div>
             {/each}
         </div>
     {:else}
-        <a>Error loading content: {data.errorReason}</a>
+        <div class="load-error"><a class="error-text">Error loading content: {data.errorReason}</a></div>
     {/if}
 
     <div id="back">
         <button id="back-button" class="cartoon-button" on:click={() => { goto("/challenges"); }}><svg id="back-svg" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="currentColor" d="M6.325 12.85q-.225-.15-.337-.375T5.874 12t.113-.475t.337-.375l8.15-5.175q.125-.075.263-.112T15 5.825q.4 0 .7.288t.3.712v10.35q0 .425-.3.713t-.7.287q-.125 0-.262-.038t-.263-.112z"/></svg></button>
     </div>
+    
+    {#if isTeamChallenge}
+        <div id="team-panel" class="cartoon-button disable-anim">
+            Team {teamData.teamId}
+            / Players: {teamData.userIds.length}
+            <svg id="team-svg" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 16 16"><path fill="currentColor" d="M8 2.002a1.998 1.998 0 1 0 0 3.996a1.998 1.998 0 0 0 0-3.996M12.5 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m-9 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3M5 7.993A1 1 0 0 1 6 7h4a1 1 0 0 1 1 1v3a3 3 0 0 1-.146.927A3.001 3.001 0 0 1 5 11zM4 8c0-.365.097-.706.268-1H2a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 0 3.436 2.319A4 4 0 0 1 4 10.999zm8 0v3c0 .655-.157 1.273-.436 1.819A2.5 2.5 0 0 0 15 10.5V8a1 1 0 0 0-1-1h-2.268c.17.294.268.635.268 1"/></svg>
+        </div>
+    {/if}
 </div>
 
 {#if popupData}
@@ -255,6 +274,38 @@
 :global(.card-header) { transition: 0.2s; padding-bottom: 2px; }
 :global(.card.open .card-header) {
     margin-bottom: -6px;
+}
+
+.load-error {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-text {
+    background-color: #fff1e6;
+
+    padding: 20px;
+}
+
+#team-panel {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    height: 52px;
+
+    padding: 0px 12px 0px 12px; margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#team-svg {
+    transition: 0.2s;
+    color: #333;
 }
 </style>
 

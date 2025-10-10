@@ -5,6 +5,8 @@
     let { data }: LoadDashboard = $props();
     let challenges: ChallengeEntry[] = $state(data.content.challenges);
 
+    let { newTeamCodes } = $state([]);
+
     function addChallenge() {
         let newId = parseInt(document.getElementById("challenge-id").value);
             
@@ -44,6 +46,24 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId, newPassword }),
+            credentials: "include"
+        });
+    }
+
+    async function clearTeams() {
+        await fetch(`${API_URL}/dashboard/clear-teams`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"
+        });
+    }
+
+    async function genTeamCodes() {
+        let number = parseInt(document.getElementById("new-team-count").value);
+        await fetch(`${API_URL}/dashboard/gen-team-codes`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ number }),
             credentials: "include"
         });
     }
@@ -98,6 +118,21 @@
         <input id="new-password" type="text" placeholder="New Password">
         <button on:click={setUserPassword} class="">
             Update password (be careful)
+        </button>
+
+        <br><br><br><br>
+        <h1>Clear Teams</h1>
+        <a>Removes all team member registers, but not the team codes</a>
+        <br>
+        <button on:click={clearTeams} class="">
+            Clear ALL teams (be careful)
+        </button>
+        <h1>Gen Teams</h1>
+        <b>REMOVES all team member registers AND codes</b><a>, and makes new codes</a>
+        <br>
+        <input id="new-team-count" type="text" placeholder="Count of teams">
+        <button on:click={genTeamCodes} class="">
+            Clear ALL teams and gen new codes (be careful)
         </button>
 
 

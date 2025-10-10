@@ -35,7 +35,7 @@
     user-select: none;
 }
 
-.cartoon-button:not(.cartoon-button-disabled):hover {
+.cartoon-button:not(.cartoon-button-disabled):not(.disable-anim):hover {
     transform: translateY(1px) translateX(1px);
 
     box-shadow:         3px 3px 0px -1px rgba(0,0,0,0.68);
@@ -43,6 +43,10 @@
     -moz-box-shadow:    3px 3px 0px -1px rgba(0,0,0,0.68);
 
     background-color: #ddd;
+}
+
+.cartoon-button.disable-anim {
+    cursor: default !important;
 }
 
 .cartoon-button-disabled {

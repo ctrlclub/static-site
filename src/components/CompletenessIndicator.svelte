@@ -3,8 +3,6 @@
         current: number,
         total: number,
     } = $props();
-
-    console.log(parameters.total)
 </script>
 
 <div id="container">

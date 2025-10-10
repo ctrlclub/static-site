@@ -4,6 +4,9 @@
     import { onMount } from "svelte";
     import "$components/Globals.css";
 
+    import { slide, fade, fly } from "svelte/transition";
+    import { cubicInOut } from "svelte/easing";
+
     const CORRECT = ["Correct!", "That's right!", "Great job!"];
     const INCORRECT = ["Uh oh!", "Almost...", "So close..."];
 
@@ -41,7 +44,9 @@
     
     let props: SubmissionPopup = $props();
 
-    onMount(() => {
+    onMount(async () => {
+        await new Promise(r => setTimeout(r, 150));
+
         if(!props.answerCorrect) {
             emojiBlast({
                 emojiCount: 10,
@@ -64,8 +69,8 @@
 </script>
 
 
-<div id="background-overlay">
-    <div id="container" class="cartoon-border">
+<div id="background-overlay" transition:fade={{easing: cubicInOut, timing: 50}}>
+    <div id="container" class="cartoon-border" transition:fade={{easing: cubicInOut, timing:75}}>
         <div class="header center">
             {#if props.answerCorrect}
                 <span style="font-size: 0.75em !important;">{"✅"}</span>&nbsp;<span>{randomChoice(CORRECT)}</span>
@@ -137,7 +142,7 @@
         padding-bottom: 28px;
     }
 
-    .gold {
+    :global(.gold) {
         background: linear-gradient(146deg,rgba(171, 95, 32, 1) 0%, rgba(171, 95, 32, 1) 41%, rgba(180, 126, 17, 1) 45%, rgba(230, 214, 110, 1) 51%, rgba(188, 136, 27, 1) 57%, rgba(171, 95, 32, 1) 62%, rgba(171, 95, 32, 1) 100%);
 
         background-size: 400% 400%;

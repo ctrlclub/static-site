@@ -17,7 +17,6 @@
     if(parameters.highlighting) {
         mdParameters["highlight"] = (str, lang) => {
             let showCopy = (lang.replace(" ", "").endsWith("+copy"));
-            console.log(showCopy)
             let realLang = showCopy ? lang.substring(0, lang.indexOf("+")) : lang;
 
             if (realLang && hljs.getLanguage(realLang) && parameters.highlighting) {

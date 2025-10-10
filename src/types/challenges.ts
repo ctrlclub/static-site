@@ -1,3 +1,6 @@
+import type { MyTeam } from "./teams";
+
+
 export interface ChallengeListing {
     challengeId: number,
     name: string;
@@ -9,6 +12,7 @@ export interface ChallengeListing {
 export interface ChallengeListingResponse {
     success: boolean;
     challenges: ChallengeListing[];
+    myTeam: MyTeam | undefined;
 }
 
 
@@ -24,6 +28,7 @@ export interface ChallengeFetch {
     errorReason: string;
     challengeId: number;
     data: ChallengeContent | undefined;
+    teamData: MyTeam | undefined;
 }
 
 

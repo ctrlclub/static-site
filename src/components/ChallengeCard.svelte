@@ -15,6 +15,7 @@
         challengeUnlocked: boolean,
         numSubchallenges: number,
         completedSubchallenges: number,
+        isTeamChallenge: boolean,
     } = $props();
 
     let isHovered = false;
@@ -23,7 +24,7 @@
 
 <div class="cartoon-button" id="container" class:card-locked={!parameters.challengeUnlocked} on:click={clicked}>
     <div id="card-header">
-        <a id="challenge-id">Challenge {parameters.challengeId}</a>
+        <a id="challenge-id">{parameters.isTeamChallenge ? "Team " : ""}Challenge {parameters.challengeId}</a>
         <a id="challenge-unlocked-indicator" class:locked-status={!parameters.challengeUnlocked}>●</a>
     </div>
 
