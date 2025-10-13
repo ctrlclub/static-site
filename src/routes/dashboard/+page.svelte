@@ -5,7 +5,7 @@
     let { data }: LoadDashboard = $props();
     let challenges: ChallengeEntry[] = $state(data.content.challenges);
 
-    let { newTeamCodes } = $state([]);
+    let newTeamCodes = $state({});
 
     function addChallenge() {
         let newId = parseInt(document.getElementById("challenge-id").value);
@@ -60,12 +60,17 @@
 
     async function genTeamCodes() {
         let number = parseInt(document.getElementById("new-team-count").value);
-        await fetch(`${API_URL}/dashboard/gen-team-codes`, {
+        let req = await fetch(`${API_URL}/dashboard/gen-team-codes`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ number }),
             credentials: "include"
         });
+
+        let res = await req.json();
+        if(res.success) {
+            newTeamCodes = res.data;
+        }
     }
 </script>
 
@@ -134,6 +139,11 @@
         <button on:click={genTeamCodes} class="">
             Clear ALL teams and gen new codes (be careful)
         </button>
+        <br>
+        <b>Result:</b><br>
+        {#each newTeamCodes as teamCode}
+            Team {teamCode.teamId} {":"} {teamCode.teamCode}<br>
+        {/each}
 
 
     {:else}

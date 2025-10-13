@@ -52,7 +52,7 @@
                     numSubchallenges={challenge.numSubchallenges}
                     completedSubchallenges={challenge.completedSubchallenges}
                     isTeamChallenge={challenge.isTeamChallenge}
-                    on:click={() => { openedChallenge(challenge.challengeId, challenge.unlocked); }}
+                    on:click={() => { if(challenge.unlocked && (!challenge.isTeamChallenge) || (challenge.isTeamChallenge && data.myTeam != undefined)) openedChallenge(challenge.challengeId, challenge.unlocked); }}
                 />
             {/each}
         </div>
@@ -82,9 +82,10 @@
         background-size: 26px 26px;
 
         width: 100vw;
-        height: 100vh;
+        min-height: 100vh;
 
         padding-top: 100px;
+        padding-bottom: 100px;
         box-sizing: border-box;
 
         display: flex;
