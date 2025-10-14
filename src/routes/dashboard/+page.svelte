@@ -72,6 +72,18 @@
             newTeamCodes = res.data;
         }
     }
+
+    async function testReq() {
+        let number = parseInt(document.getElementById("new-team-count").value);
+        let req = await fetch(`${API_URL}/dashboard/leaderboard/4`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"
+        });
+
+        let res = await req.json();
+        console.log(res)
+    }
 </script>
 
 <!-- Use the data in template -->
@@ -144,6 +156,10 @@
         {#each newTeamCodes as teamCode}
             Team {teamCode.teamId} {":"} {teamCode.teamCode}<br>
         {/each}
+
+        <button on:click={testReq} class="">
+            TEST REQ
+        </button>
 
 
     {:else}
