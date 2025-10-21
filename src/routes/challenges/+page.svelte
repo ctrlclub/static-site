@@ -48,7 +48,7 @@
                 <ChallengeCard
                     challengeName={challenge.name}
                     challengeId={challenge.challengeId + 1}
-                    challengeUnlocked={challenge.unlocked && (!challenge.isTeamChallenge) || (challenge.isTeamChallenge && data.myTeam != undefined)}
+                    challengeUnlocked={challenge.unlocked && ((!challenge.isTeamChallenge) || (challenge.isTeamChallenge && data.myTeam != undefined))}
                     numSubchallenges={challenge.numSubchallenges}
                     completedSubchallenges={challenge.completedSubchallenges}
                     isTeamChallenge={challenge.isTeamChallenge}
@@ -98,8 +98,8 @@
         margin-top: 20px;
 
         display: flex;
-        flex-wrap: wrap;
         flex-direction: row-reverse;
+        flex-wrap: wrap-reverse; /* wrap downward */
         justify-content: center;   /* horizontal centering */
         align-content: flex-start;
 
