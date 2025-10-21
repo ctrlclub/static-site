@@ -13,6 +13,6 @@ export async function load({ params }): Promise<{ id: number | undefined}> {
         redirect(307, "/");
     }
 
-    return { id: parseInt(params.id) };
+    return { id: parseInt(params.id) - 1 };
 }
 

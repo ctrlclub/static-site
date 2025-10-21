@@ -6,6 +6,7 @@
 
     let { data }: number | undefined = $props();
     let challengeLeaderboard = $state(undefined);
+    let ignoredIds = $state([]); // contains list of hidden IDs
 
 
     async function updateStatus() {
@@ -39,11 +40,13 @@
 
     {#if challengeLeaderboard}
         
-        {#each challengeLeaderboard as i}
-            <div class="entry">
-                {i.teamName}
-                <CompletenessIndicator current={i.complete} total={i.total} />
-            </div>
+        {#each challengeLeaderboard as i, idx}
+            {#if !ignoredIds.includes(idx)}
+                <div class="entry">
+                    <a on:click={() => { ignoredIds.push(idx); }} class="remove">{i.teamName}</a>
+                    <CompletenessIndicator current={i.complete} total={i.total} />
+                </div>
+            {/if}
         {/each}
 
     {:else}
@@ -97,5 +100,11 @@
         font-weight: 500;
 
         background-color: #fff1e6;
+    }
+
+    .remove:hover {
+        cursor: pointer;
+        color: #aa0000;
+        transition: 0.15s;
     }
 </style>
